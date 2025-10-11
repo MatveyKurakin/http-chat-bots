@@ -1,0 +1,10 @@
+.vscode
+.idea
+.DS_Store
+uploaded_files/
+*.pem
+*.gpg
+.env
+.venv
+*.sqlite
+__pycache__
