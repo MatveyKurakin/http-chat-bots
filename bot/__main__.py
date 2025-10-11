@@ -11,16 +11,19 @@ def main() -> None:
             updates = bot.telegram_client.get_updates(next_update_offset)
             bot.database_client.persist_updates(updates)
             for update in updates:
-                if "text" not in update["message"]:
-                    bot.telegram_client.send_message(
-                        chat_id=update["message"]["chat"]["id"],
-                        text="I don't know how to reply to messages with files.",
-                    )
-                else:
-                    bot.telegram_client.send_message(
-                        chat_id=update["message"]["chat"]["id"],
-                        text=update["message"]["text"],
-                    )
+                try:
+                    if "text" not in update["message"]:
+                        bot.telegram_client.send_message(
+                            chat_id=update["message"]["chat"]["id"],
+                            text="I don't know how to reply to messages with files.",
+                        )
+                    else:
+                        bot.telegram_client.send_message(
+                            chat_id=update["message"]["chat"]["id"],
+                            text=update["message"]["text"],
+                        )
+                except:
+                    pass
                 print(".", end="", flush=True)
                 next_update_offset = max(next_update_offset, update["update_id"] + 1)
             time.sleep(1)
