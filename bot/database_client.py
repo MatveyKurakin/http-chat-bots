@@ -28,7 +28,7 @@ def persist_updates(updates: dict) -> None:
     with connection:
         data = []
         for update in updates:
-            data.append((json.dumps(update),))
+            data.append((json.dumps(update, ensure_ascii=False, indent=2),))
         connection.executemany(
             "INSERT INTO telegram_updates (payload) VALUES (?)",
             data,
