@@ -8,7 +8,7 @@ def main() -> None:
     next_update_offset = 0
     try:
         while True:
-            updates = bot.telegram_client.get_updates(next_update_offset)
+            updates = bot.telegram_client.get_updates(offset=next_update_offset)
             bot.database_client.persist_updates(updates)
             for update in updates:
                 try:

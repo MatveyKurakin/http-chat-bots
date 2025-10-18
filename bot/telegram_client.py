@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def make_request(method: str, **param) -> dict:
-    json_data = json.dumps(param).encode("utf-8")
+def make_request(method: str, **params) -> dict:
+    json_data = json.dumps(params).encode("utf-8")
     request = urllib.request.Request(
         method="POST",
         url=f"{os.getenv('TELEGRAM_BASE_URI')}/{method}",
@@ -23,12 +23,12 @@ def make_request(method: str, **param) -> dict:
         return response_json["result"]
 
 
-def get_updates(offset: int) -> dict:
-    return make_request("getUpdates", offset=offset)
+def get_updates(**params) -> dict:
+    return make_request("getUpdates", **params)
 
 
-def send_message(chat_id: int, text: str) -> dict:
-    return make_request("sendMessage", chat_id=chat_id, text=text)
+def send_message(chat_id: int, text: str, **params) -> dict:
+    return make_request("sendMessage", chat_id=chat_id, text=text, **params)
 
 
 def get_me() -> dict:
