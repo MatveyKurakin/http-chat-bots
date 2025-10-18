@@ -1,32 +1,17 @@
-import time
-
-import bot.database_client
-import bot.telegram_client
+from bot.dispatcher import Dispatcher
+from bot.handlers.database_logger import DatabaseLogger
+from bot.handlers.message_text_echo import MessageTextEcho
+from bot.handlers.message_photo_echo import MessagePhotoEcho
+from bot.long_polling import start_long_polling
 
 
 def main() -> None:
-    next_update_offset = 0
     try:
-        while True:
-            updates = bot.telegram_client.get_updates(offset=next_update_offset)
-            bot.database_client.persist_updates(updates)
-            for update in updates:
-                try:
-                    if "text" not in update["message"]:
-                        bot.telegram_client.send_message(
-                            chat_id=update["message"]["chat"]["id"],
-                            text="I don't know how to reply to messages with files.",
-                        )
-                    else:
-                        bot.telegram_client.send_message(
-                            chat_id=update["message"]["chat"]["id"],
-                            text=update["message"]["text"],
-                        )
-                except:
-                    pass
-                print(".", end="", flush=True)
-                next_update_offset = max(next_update_offset, update["update_id"] + 1)
-            time.sleep(1)
+        dispatcher = Dispatcher()
+        dispatcher.add_handler(DatabaseLogger())
+        dispatcher.add_handler(MessageTextEcho())
+        dispatcher.add_handler(MessagePhotoEcho())
+        start_long_polling(dispatcher)
     except KeyboardInterrupt:
         print("\nBye!")
 
