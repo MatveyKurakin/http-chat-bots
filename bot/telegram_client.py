@@ -107,6 +107,10 @@ def answer_callback_query(callback_query_id: str) -> dict:
     return make_request("answerCallbackQuery", callback_query_id=callback_query_id)
 
 
+def delete_message(chat_id: int, message_id: int) -> dict:
+    return make_request("deleteMessage", chat_id=chat_id, message_id=message_id)
+
+
 def get_file(file_id: str) -> dict:
     return make_request("getFile", file_id=file_id)
 

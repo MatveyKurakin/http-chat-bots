@@ -16,6 +16,10 @@ class CallbackPhoto(Handler):
 
     def handle(self, update: dict) -> bool:
         bot.telegram_client.answer_callback_query(update["callback_query"]["id"])
+        bot.telegram_client.delete_message(
+            update["callback_query"]["message"]["chat"]["id"],
+            update["callback_query"]["message"]["message_id"],
+        )
 
         filter_type = update["callback_query"]["data"]
         photo = max(
