@@ -1,7 +1,7 @@
 import json
-
 import bot.telegram_client
 import bot.database_client
+
 from bot.handlers.handler import HandlerStatus, Handler
 
 
@@ -21,7 +21,9 @@ class PizzaSelectionHandler(Handler):
         callback_data = update["callback_query"]["data"]
 
         pizza_name = callback_data.replace("pizza_", "").replace("_", " ").title()
-        bot.database_client.update_user_order_json(telegram_id, {"pizza_name": pizza_name})
+        bot.database_client.update_user_order_json(
+            telegram_id, {"pizza_name": pizza_name}
+        )
         bot.database_client.update_user_state(telegram_id, "WAIT_FOR_PIZZA_SIZE")
         bot.telegram_client.answer_callback_query(update["callback_query"]["id"])
         bot.telegram_client.delete_message(
