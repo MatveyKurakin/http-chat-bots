@@ -1,12 +1,12 @@
 import bot.database_client
-
 from bot.handlers.handler import HandlerStatus, Handler
 
 
-class DatabaseLogger(Handler):
+class EnsureUserExists(Handler):
     def can_handle(self, update: dict, state: str, order_json: dict) -> bool:
-        return True
+        return "message" in update and "from" in update["message"]
 
     def handle(self, update: dict, state: str, order_json: dict) -> HandlerStatus:
-        bot.database_client.persist_updates(update)
+        telegram_id = update["message"]["from"]["id"]
+        bot.database_client.ensure_user_exists(telegram_id)
         return HandlerStatus.CONTINUE
