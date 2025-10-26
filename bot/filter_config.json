@@ -1,0 +1,217 @@
+{
+    "filter_groups": {
+        "basic": "🔧 Basic Filters",
+        "blur": "🌫 Blur and sharpen",
+        "color_correction": "🎛 Color correction",
+        "creative_effects": "🎭 Creative effects",
+        "distortions": "🌊 Distortions"
+    },
+    "filters": [
+        {
+            "name": "grayscale",
+            "show_name": "⬜️ Grayscale",
+            "group": "basic",
+            "has_parameters": false
+        },
+        {
+            "name": "sepia",
+            "show_name": "🟫 Sepia",
+            "group": "basic",
+            "has_parameters": false
+        },
+        {
+            "name": "invert",
+            "show_name": "🔄 Invert",
+            "group": "basic",
+            "has_parameters": false
+        },
+        {
+            "name": "gaussian",
+            "show_name": "🌫 Gaussian",
+            "group": "blur",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "Blur intensity",
+                    "sign": "🌫",
+                    "min": 0,
+                    "max": 100,
+                    "step": 20,
+                    "default": 0
+                }
+            ]
+        },
+        {
+            "name": "median",
+            "show_name": "🔄 Median",
+            "group": "blur",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "Blur intensity",
+                    "sign": "🔄",
+                    "min": 0,
+                    "max": 100,
+                    "step": 20,
+                    "default": 0
+                }
+            ]
+        },
+        {
+            "name": "sharpen",
+            "show_name": "🔪 Sharpen",
+            "group": "blur",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "Blur intensity",
+                    "sign": "🔪",
+                    "min": 0,
+                    "max": 200,
+                    "step": 20,
+                    "default": 100
+                }
+            ]
+        },
+        {
+            "name": "brightness",
+            "show_name": "🔅 Brightness",
+            "group": "color_correction",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "",
+                    "sign": "🔅",
+                    "min": -100,
+                    "max": 100,
+                    "step": 20,
+                    "default": 0
+                }
+            ]
+        },
+        {
+            "name": "saturation",
+            "show_name": "🎨 Saturation",
+            "group": "color_correction",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "",
+                    "sign": "🎨",
+                    "min": 0,
+                    "max": 200,
+                    "step": 20,
+                    "default": 100
+                }
+            ]
+        },
+        {
+            "name": "color_balance",
+            "show_name": "🌈 Color balance",
+            "group": "color_correction",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "red_intensity",
+                    "show_name": "",
+                    "sign": "🟥",
+                    "min": 0,
+                    "max": 200,
+                    "step": 20,
+                    "default": 100
+                },
+                {
+                    "name": "green_intensity",
+                    "show_name": "",
+                    "sign": "🟩",
+                    "min": 0,
+                    "max": 200,
+                    "step": 20,
+                    "default": 100
+                },
+                {
+                    "name": "blue_intensity",
+                    "show_name": "",
+                    "sign": "🟦",
+                    "min": 0,
+                    "max": 200,
+                    "step": 20,
+                    "default": 100
+                }
+            ]
+        },
+        {
+            "name": "vignette",
+            "show_name": "🌘 Vignette",
+            "group": "creative_effects",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "",
+                    "sign": "🌘",
+                    "min": 0,
+                    "max": 100,
+                    "step": 20,
+                    "default": 40
+                }
+            ]
+        },
+        {
+            "name": "add_noise",
+            "show_name": "📺 Add noise",
+            "group": "creative_effects",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "",
+                    "sign": "📺",
+                    "min": 0,
+                    "max": 100,
+                    "step": 20,
+                    "default": 40
+                }
+            ]
+        },
+        {
+            "name": "pixel_art",
+            "show_name": "🧩 Pixel art",
+            "group": "creative_effects",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "",
+                    "sign": "🧩",
+                    "min": 0,
+                    "max": 100,
+                    "step": 20,
+                    "default": 40
+                }
+            ]
+        },
+        {
+            "name": "fisheye",
+            "show_name": "🐠 Fisheye",
+            "group": "distortions",
+            "has_parameters": true,
+            "parameters": [
+                {
+                    "name": "intensity",
+                    "show_name": "",
+                    "sign": "🐠",
+                    "min": -100,
+                    "max": 100,
+                    "step": 20,
+                    "default": 0
+                }
+            ]
+        }
+    ]
+}

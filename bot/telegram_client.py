@@ -23,6 +23,93 @@ def make_request(method: str, **params) -> dict:
         return response_json["result"]
 
 
+def make_file_request(
+    chat_id: str,
+    file_name: str,
+    file_data: bytes,
+    file_type: str,
+    **params,
+) -> dict:
+
+    if file_type == "photo":
+        endpoint = "sendPhoto"
+        field_name = "photo"
+        content_type = "image/jpeg"
+    elif file_type == "document":
+        endpoint = "sendDocument"
+        field_name = "document"
+        content_type = "application/octet-stream"
+
+    boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW"
+    body_parts = []
+
+    body_parts.append(f"--{boundary}")
+    body_parts.append('Content-Disposition: form-data; name="chat_id"')
+    body_parts.append("")
+    body_parts.append(str(chat_id))
+
+    for key, value in params.items():
+        if value is not None:
+            body_parts.append(f"--{boundary}")
+            body_parts.append(f'Content-Disposition: form-data; name="{key}"')
+            body_parts.append("")
+
+            if isinstance(value, (dict, list)):
+                body_parts.append(json.dumps(value))
+            else:
+                body_parts.append(str(value))
+
+    body_parts.append(f"--{boundary}")
+    body_parts.append(
+        f'Content-Disposition: form-data; name="{field_name}"; filename="{file_name}"'
+    )
+    body_parts.append(f"Content-Type: {content_type}")
+    body_parts.append("")
+    body_parts.append("")
+
+    body_parts.append(f"--{boundary}--")
+    body_parts.append("")
+
+    body_text = "\r\n".join(body_parts)
+    body_bytes = body_text.encode("utf-8")
+
+    placeholder_pos = body_bytes.find(
+        b"\r\n\r\n", body_bytes.find(content_type.encode("utf-8"))
+    )
+    if placeholder_pos != -1:
+        placeholder_pos += 4
+        final_body = (
+            body_bytes[:placeholder_pos] + file_data + body_bytes[placeholder_pos:]
+        )
+    else:
+        final_body = body_bytes
+
+    request = urllib.request.Request(
+        method="POST",
+        url=f"{os.getenv('TELEGRAM_BASE_URI')}/{endpoint}",
+        data=final_body,
+        headers={
+            "Content-Type": f"multipart/form-data; boundary={boundary}",
+            "Content-Length": str(len(final_body)),
+        },
+    )
+
+    with urllib.request.urlopen(request) as response:
+        response_body = response.read().decode("utf-8")
+        response_json = json.loads(response_body)
+        assert response_json["ok"] == True
+        return response_json["result"]
+
+
+def file_download(file_path: str) -> bytes:
+    request = urllib.request.Request(
+        method="GET",
+        url=f"{os.getenv('TELEGRAM_FILE_URI')}/{file_path}",
+    )
+    with urllib.request.urlopen(request) as response:
+        return response.read()
+
+
 def get_updates(**params) -> dict:
     return make_request("getUpdates", **params)
 
@@ -43,6 +130,10 @@ def delete_message(chat_id: int, message_id: int) -> dict:
 
 def send_photo(chat_id: int, photo: str, **params) -> dict:
     return make_request("sendPhoto", chat_id=chat_id, photo=photo, **params)
+
+
+def get_file(file_id: str) -> dict:
+    return make_request("getFile", file_id=file_id)
 
 
 def get_me() -> dict:
