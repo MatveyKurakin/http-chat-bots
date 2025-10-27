@@ -36,13 +36,12 @@ class Filter(Handler):
             return HandlerStatus.STOP
 
         if filter_config.get_filter(filter_name)["has_parameters"]:
-            bot.database_client.update_user_state(telegram_id, f"WAIT_FOR_PARAMS")
+            bot.database_client.update_user_state(telegram_id, "WAIT_FOR_PARAMS")
         else:
-            bot.database_client.update_user_state(telegram_id, f"WAIT_FOR_DOWNLOAD")
+            bot.database_client.update_user_state(telegram_id, "WAIT_FOR_DOWNLOAD")
 
         text = ""
         inline_keyboard = []
-        line = []
 
         file_id = order_json.get("file_id", "")
         file_name = bot.telegram_client.get_file(file_id=file_id)["file_path"]
@@ -55,21 +54,19 @@ class Filter(Handler):
             filter_params = {}
             for param in params:
                 text += f"{param["sign"]} {param["show_name"]}: {param["default"]}%\n"
-                line.append(
-                    {
-                        "text": f"{param["sign"]} - {param["step"]} %",
-                        "callback_data": f"params_{param["name"]}_down",
-                    },
-                    {
-                        "text": f"{param["sign"]} + {param["step"]} %",
-                        "callback_data": f"params_{param["name"]}_up",
-                    },
+                inline_keyboard.append(
+                    [
+                        {
+                            "text": f"{param["sign"]} - {param["step"]} %",
+                            "callback_data": f"params_{param["name"]}_down",
+                        },
+                        {
+                            "text": f"{param["sign"]} + {param["step"]} %",
+                            "callback_data": f"params_{param["name"]}_up",
+                        },
+                    ]
                 )
                 filter_params[param["name"]] = param["default"]
-                if len(line) == 3:
-                    inline_keyboard.append(line)
-                    line = []
-            inline_keyboard.append(line)
             img = filter_functions[filter_name](img, **filter_params)
             order_json["filter_params"] = filter_params
             bot.database_client.update_user_order_json(telegram_id, order_json)

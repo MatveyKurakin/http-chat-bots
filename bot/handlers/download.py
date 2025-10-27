@@ -1,4 +1,3 @@
-import json
 import bot.telegram_client
 import bot.database_client
 
@@ -17,9 +16,6 @@ class Download(Handler):
         return "download" in callback_data
 
     def handle(self, update: dict, state: str, order_json: dict) -> HandlerStatus:
-        telegram_id = update["callback_query"]["from"]["id"]
-        callback_data = update["callback_query"]["data"]
-
         try:
             bot.telegram_client.delete_message(
                 chat_id=update["callback_query"]["message"]["chat"]["id"],

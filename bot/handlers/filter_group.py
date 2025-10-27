@@ -25,7 +25,7 @@ class FilterGroup(Handler):
         order_json["filter_group_name"] = filter_group_name
         bot.database_client.update_user_order_json(telegram_id, order_json)
 
-        bot.database_client.update_user_state(telegram_id, f"WAIT_FOR_FILTER")
+        bot.database_client.update_user_state(telegram_id, "WAIT_FOR_FILTER")
 
         try:
             bot.telegram_client.answer_callback_query(update["callback_query"]["id"])

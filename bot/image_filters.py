@@ -5,7 +5,7 @@ import numpy as np
 def data_to_img(data):
     nparr = np.frombuffer(data, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    assert not img is None
+    assert img is not None
     return img
 
 
@@ -57,9 +57,9 @@ def brightness(img, **params):
     brightness_values = [0, 51, 102, 153, 204, 255]
     param = params["intensity"]
     if param < 0:
-        brightness = brightness_values[param // -20]
+        brightness = -brightness_values[param // -20]
     else:
-        brightness = -brightness_values[param // 20]
+        brightness = brightness_values[param // 20]
     return cv2.convertScaleAbs(img, alpha=1.0, beta=brightness)
 
 
@@ -111,7 +111,7 @@ def add_noise(img, **params):
 
 
 def pixel_art(img, **params):
-    intensity_sizes = [2, 8, 14, 20, 26, 3]
+    intensity_sizes = [2, 8, 14, 20, 26, 30]
     h, w = img.shape[:2]
     max_size = min(h, w) // 4
     pixel_size = max(2, min(max_size, intensity_sizes[params["intensity"] // 20]))
