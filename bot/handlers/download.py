@@ -36,7 +36,7 @@ class Download(Handler):
             file_name=file_name,
             file_data=data,
             file_type="document",
-            caption="Your filtered photo in document",
+            caption="Your filtered photo in document!\nSend me a new message!",
         )
 
         return HandlerStatus.STOP
