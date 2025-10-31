@@ -7,6 +7,7 @@ from bot.handlers.filter_group import FilterGroup
 from bot.handlers.filter import Filter
 from bot.handlers.params import Params
 from bot.handlers.download import Download
+from bot.handlers.callback_not_photo import CallbackNotPhoto
 
 
 def get_handlers() -> list[Handler]:
@@ -19,4 +20,5 @@ def get_handlers() -> list[Handler]:
         Filter(),
         Params(),
         Download(),
+        CallbackNotPhoto(),
     ]

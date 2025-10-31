@@ -53,7 +53,7 @@ class Filter(Handler):
             params = filter_config.get_filter(filter_name)["parameters"]
             filter_params = {}
             for param in params:
-                text += f"{param["sign"]} {param["show_name"]}: {param["default"]}%\n"
+                text += f"{param["sign"]} {param["show_name"]}: {param["default"]}% [{param["min"]} - {param["max"]}]\n"
                 inline_keyboard.append(
                     [
                         {

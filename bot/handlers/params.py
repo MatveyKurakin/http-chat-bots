@@ -67,7 +67,7 @@ class Params(Handler):
         text += "Change the settings and download.\n"
         filter_params = {}
         for param in params:
-            text += f"{param["sign"]} {param["show_name"]}: {order_json["filter_params"][param["name"]]}%\n"
+            text += f"{param["sign"]} {param["show_name"]}: {order_json["filter_params"][param["name"]]}% [{param["min"]} - {param["max"]}]\n"
             inline_keyboard.append(
                 [
                     {
